@@ -21,18 +21,19 @@ import {Stage, Layer, Rect, Text, Circle} from 'react-konva';
 import Konva from 'konva';
 import AddPointsDialog from './AddPoints'
 import AddIcon from '@material-ui/icons/Add';
+import PointCanvas from "./PointCanvas";
 
 const drawerWidth = 50;
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
+    flex:{
+        "flex-flow":"row",
+        "flex":"1 1",
+        "display":"flex",
     },
     drawer: {
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-            flexShrink: 0,
-        },
+        width: drawerWidth,
+        flexShrink: 0,
     },
     appBar: {
         [theme.breakpoints.up('sm')]: {
@@ -50,10 +51,6 @@ const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(0),
     },
 }));
 
@@ -88,7 +85,7 @@ function NavPlannerToolbox(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [isAddPointsDialogShow,setIsAddPointsDialogShow] = React.useState(false);
-    const [points,setPoints] = React.useState(false);
+    const [points,setPoints] = React.useState([]);
 
     function OnShowAddPointsDialogClicked()
     {
@@ -100,10 +97,28 @@ function NavPlannerToolbox(props) {
         setIsAddPointsDialogShow(false);
     }
 
+
+
     function OnAddPointsFinished(pointDatas)
     {
         OnHideAddPointsDialogClicked();
-        console.log(pointDatas);
+        const newPoints = pointDatas.split('\n');
+        for (let i = 0; i < newPoints.length; i++) {
+            var pointArr = newPoints[i].split(' ');
+            if(pointArr.length != 5)
+                continue;
+            let pointObj = {};
+            pointObj["x"] = pointArr[0];
+            pointObj["y"] = pointArr[1];
+            pointObj["z"] = pointArr[2];
+            //pointObj["rp"] = pointArr[3];
+            //pointObj["ry"] = pointArr[4];
+
+            //25384 134962 -46802 21.29 -2.03
+            const combinedPoints = points.concat([pointObj]);
+            setPoints(combinedPoints);
+            console.log(combinedPoints);
+        }
     }
 
     const drawer = (
@@ -118,7 +133,7 @@ function NavPlannerToolbox(props) {
 
 
     return (
-        <div className={classes.root}>
+        <div className={classes.flex}>
             <nav className={classes.drawer} aria-label="folders">
                 {drawer}
             </nav>
@@ -126,29 +141,10 @@ function NavPlannerToolbox(props) {
                              OnAddPointsCanceled={OnHideAddPointsDialogClicked}
                              OnAddPointsFinished={OnAddPointsFinished}
             />
-            <main className={classes.content}>
-                <Stage width="200" height="200">
-                    <Layer>
-                        <Circle
-                            x={20}
-                            y={20}
-                            draggable
-                            radius={3}
-                            fill="red"
-                        />
-                    </Layer>
-                </Stage>
-            </main>
+            <PointCanvas/>
         </div>
     );
 }
 
-NavPlannerToolbox.propTypes = {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
-    window: PropTypes.func,
-};
 
 export default NavPlannerToolbox;

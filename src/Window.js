@@ -13,6 +13,10 @@ export default function Window(props) {
     const useStyles = makeStyles((theme) => ({
         root: {
             flexGrow: 1,
+            height:"100vh",
+            width:"100vw",
+            "flex-flow":"column",
+            "display":"flex",
         },
         menuButton: {
             marginRight: theme.spacing(0),
@@ -20,6 +24,11 @@ export default function Window(props) {
         title: {
             flexGrow: 1,
         },
+        flex:{
+            "flex-flow":"column",
+            "flex":"1 1",
+            "display":"flex",
+        }
     }));
 
     const classes = useStyles();

@@ -23,23 +23,9 @@ import MainView from "./MainView";
 
 
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(0),
-    },
-    title: {
-        flexGrow: 1,
-    },
-}));
-
 
 
 function App() {
-
-    const classes = useStyles();
     return (
 
         <Window name="RAutomation" content={

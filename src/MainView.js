@@ -21,21 +21,20 @@ import NavPlanner from "./NavPlanner";
 
 
 function TabPanel(props) {
+    const classes = useStyles();
     const { children, value, index, ...other } = props;
 
-    return (
+    return value === index && (
         <div
+            className={classes.flex}
+            style={{flex:'1 1'}}
             role="tabpanel"
             hidden={value !== index}
             id={`scrollable-force-tabpanel-${index}`}
             aria-labelledby={`scrollable-force-tab-${index}`}
             {...other}
         >
-            {value === index && (
-                <Box>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
+            {children}
         </div>
     );
 }
@@ -56,10 +55,15 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        width: '100%',
         backgroundColor: theme.palette.background.paper,
-    },
+        flex:'1 1'
 
+    },
+    flex:{
+        "flex-flow":"column",
+        "flex":"1 1",
+        "display":"flex",
+    },
     tab: {
         '& .MuiBox-root': {
             padding: '0px',
@@ -77,7 +81,7 @@ export default function MainView() {
 
 
     return (
-        <div className={classes.root}>
+        <div className={classes.flex}>
             <AppBar position="static" color="default">
                 <Tabs
                     value={value}
