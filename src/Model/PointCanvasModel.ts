@@ -17,9 +17,7 @@ class PointCanvasModel {
             this.lines.push({src: {x: evt.target.attrs.x, y: evt.target.attrs.y}, dst: this.connection});
             this.connection = null;
         }
-
     }
-
     updateSize({container,isFirst}: { container: any,isFirst:any }):any {
         if(isFirst === true && this.isReady)
         {
