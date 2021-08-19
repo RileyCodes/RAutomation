@@ -54,7 +54,7 @@ export default function Window(props) {
                     </IconButton>
                 </Toolbar>
             </AppBar>
-            {props.content}
+            {props.children}
         </div>
     );
 }

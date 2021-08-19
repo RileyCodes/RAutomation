@@ -10,8 +10,6 @@ import Assignment from "@material-ui/icons/Assignment";
 import NavPlanner from "./NavPlanner";
 
 
-
-
 function TabPanel(props) {
     const classes = useStyles();
     const { children, value, index, ...other } = props;
@@ -66,11 +64,9 @@ const useStyles = makeStyles((theme) => ({
 export default function MainView() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
 
     return (
         <div className={classes.flex}>
@@ -84,7 +80,6 @@ export default function MainView() {
                     textColor="primary"
                     aria-label="scrollable force tabs example"
                 >
-
                     <Tab label={
                         <div>
                             <Typography variant="caption">

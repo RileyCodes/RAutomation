@@ -2,11 +2,13 @@ import {Circle, Layer, Line, Stage} from "react-konva";
 import React, {Component} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {observer} from "mobx-react";
+import {Context} from "./Model/Store";
 
 
 const View = (props) => {
 
     const container = React.useRef(null);
+    const [globalState, dispatch] = React.useContext(Context);
     function updateSize()
     {
         props.viewModel.updateSize({container: container});
@@ -18,7 +20,12 @@ const View = (props) => {
 
     function onPointClick(evt)
     {
-        props.viewModel.onPointClick({evt:evt});
+        if (globalState.connection === {}) {
+            dispatch({type:'setConnection',payload:{x: evt.target.attrs.x, y: evt.target.attrs.y}})
+        } else {
+            dispatch({type:'addLine',payload:{src: {x: evt.target.attrs.x, y: evt.target.attrs.y}, dst: this.connection}})
+            dispatch({type:'clearConnection'});
+        }
     }
 
     React.useEffect(() => {
@@ -49,7 +56,6 @@ const View = (props) => {
             stroke={'red'}
             tension={0.5}
             closed
-            stroke="black"
         />
     );
 

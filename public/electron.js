@@ -1,3 +1,4 @@
+const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 const path = require('path');
 
 const { app, BrowserWindow  } = require('electron');
@@ -32,16 +33,32 @@ function createWindow() {
       ? 'http://localhost:3000'
       : `file://${path.join(__dirname, '../build/index.html')}`
   );
-  // Open the DevTools.
-  if (isDev) {
-    win.webContents.openDevTools({ mode: 'detach' });
-  }
+
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+    installExtension(REACT_DEVELOPER_TOOLS )
+        .then((name) => {
+		console.log(`Added Extension:  ${name}`);
+			createWindow();
+        const win = BrowserWindow.getFocusedWindow()
+        if (win) {
+          win.webContents.on('did-frame-finish-load', () => {
+            win.webContents.once('devtools-opened', () => {
+              win.webContents.focus()
+            })
+            // open electron debug
+            console.log('Opening dev tools')
+            win.webContents.openDevTools()
+          })
+        }
+			}
+		)
+        .catch((err) => console.log('An error occurred: ', err));
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -9,7 +9,7 @@ import PointCanvas from "./PointCanvas";
 import SaveIcon from '@material-ui/icons/Save';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import PointCanvasModel from "./Model/PointCanvasModel.ts";
-import RData from "./Model/RDataStorage"
+import {Context} from "./Model/Store";
 
 const drawerWidth = 50;
 
@@ -48,11 +48,8 @@ function NavPlannerToolbox(props) {
     const classes = useStyles();
     useTheme();
     const [isAddPointsDialogShow,setIsAddPointsDialogShow] = React.useState(false);
-    const [points,setPoints] = React.useState([]);
-
-    const rData = new RData('234');
-    rData.set("test",111);
-    console.log(rData.get("test"));
+    //const [points,setPoints] = React.useState([]);
+    const [globalState, dispatch] = React.useContext(Context);
 
 
     function OnShowAddPointsDialogClicked()
@@ -79,9 +76,9 @@ function NavPlannerToolbox(props) {
             //pointObj["ry"] = pointArr[4];
 
             //25384 134962 -46802 21.29 -2.03
-            const combinedPoints = points.concat([pointObj]);
-            setPoints(combinedPoints);
-            console.log(combinedPoints);
+            const combinedPoints = globalState.points.concat([pointObj]);
+
+            dispatch({type:'setPoints',payload:combinedPoints})
         }
     }
 
@@ -115,7 +112,7 @@ function NavPlannerToolbox(props) {
                              OnAddPointsCanceled={OnHideAddPointsDialogClicked}
                              OnAddPointsFinished={OnAddPointsFinished}
             />
-            <PointCanvas viewModel={canvasViewModel} points={points} />;
+            <PointCanvas viewModel={canvasViewModel} points={globalState.points} />;
 
         </div>
     );

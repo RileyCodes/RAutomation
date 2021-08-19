@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx"
+import Store from "./Store"
 
 class PointCanvasModel {
     private dimensions = {width:0,height:0} as any;
@@ -9,6 +10,9 @@ class PointCanvasModel {
         console.log("1111");
         makeAutoObservable(this);
     }
+
+    Store: any;
+
 
     onPointClick = ({evt}: { evt: any }) : void => {
         if (this.connection == null) {
