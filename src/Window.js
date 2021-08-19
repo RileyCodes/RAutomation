@@ -32,6 +32,13 @@ export default function Window(props) {
     }));
 
     const classes = useStyles();
+    function min(){
+        window.electron.min();
+    }
+    function close(){
+        window.close();
+    }
+
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -39,10 +46,10 @@ export default function Window(props) {
                     <Typography  style={{ WebkitAppRegion :"drag" }} variant="h6" color="inherit" className={classes.title} >
                         {props.name}
                     </Typography>
-                    <IconButton onClick={window.electron.min} edge="start" className={classes.menuButton} color="inherit" aria-label="min">
+                    <IconButton onClick={min} edge="start" className={classes.menuButton} color="inherit" aria-label="min">
                         <MinimizeIcon />
                     </IconButton>
-                    <IconButton onClick={window.electron.close} edge="start" className={classes.menuButton} color="inherit" aria-label="close">
+                    <IconButton onClick={close} edge="start" className={classes.menuButton} color="inherit" aria-label="close">
                         <CloseIcon />
                     </IconButton>
                 </Toolbar>

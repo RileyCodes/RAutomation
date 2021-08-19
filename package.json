@@ -11,12 +11,15 @@
     "@testing-library/user-event": "^12.8.3",
     "fs": "0.0.1-security",
     "konva": "^8.1.3",
+    "mobx": "^6.3.2",
+    "mobx-react": "^7.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-konva": "^17.0.2-5",
     "react-measure": "^2.5.2",
     "react-new-window": "^0.1.3",
     "react-scripts": "4.0.3",
+    "typescript": "^4.3.5",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
