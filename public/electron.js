@@ -10,12 +10,12 @@ const isDev = require('electron-is-dev');
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 800,
     frame: false,
 	autHideMenuBar: true,
     webPreferences: {
-      nodeIntegration: false, // is default value after Electron v5
+      nodeIntegration: true, // is default value after Electron v5
       contextIsolation: true, // protect against prototype pollution
       enableRemoteModule: true, // turn off remote
       preload: path.join(__dirname, "preload.js") // use a preload script

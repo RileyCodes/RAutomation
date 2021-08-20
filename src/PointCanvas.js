@@ -38,7 +38,7 @@ const View = (props) => {
 
             if(evt.target.attrs.x === state.connection.x && evt.target.attrs.y === state.connection.y)
                 return;
-            
+
             const lineKey = 's_'+ evt.target.attrs.x + '_'+
                 evt.target.attrs.y + 'd_' +
                 state.connection.x + '_'+

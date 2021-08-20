@@ -8,6 +8,6 @@ contextBridge.exposeInMainWorld(
     {
         min: () => remote.BrowserWindow.getFocusedWindow().minimize(),
         close: () => remote.BrowserWindow.getFocusedWindow().close(),
-		getNativeFunction:(...Args) => getNativeFunction(Args)
+		getNativeFunction:() => getNativeFunction()
     }
 )
