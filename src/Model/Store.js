@@ -3,16 +3,20 @@ import Reducer from './Reducer'
 
 
 const initialState = {
-    points: [],
-    error: null
+    points: {},
+    error: null,
+    dimensions:{
+        width:0, height:0
+    },
+    lines:{},
+    connection:{},
+    canvasPos:{x:0,y:0}
 };
 
 const Store = ({children}) => {
-    const [globalState, dispatch] = useReducer(Reducer, initialState);
+    const [state, dispatch] = useReducer(Reducer, initialState);
     return (
-
-
-        <Context.Provider value={[globalState, dispatch]}>
+        <Context.Provider value={[state, dispatch]}>
             {children}
         </Context.Provider>
     )

@@ -7,7 +7,6 @@ class PointCanvasModel {
     private lines = [] as any;
     private isReady = false;
     constructor() {
-        console.log("1111");
         makeAutoObservable(this);
     }
 

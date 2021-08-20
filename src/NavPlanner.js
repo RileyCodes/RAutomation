@@ -42,14 +42,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const canvasViewModel = new PointCanvasModel();
-
 function NavPlannerToolbox(props) {
     const classes = useStyles();
     useTheme();
     const [isAddPointsDialogShow,setIsAddPointsDialogShow] = React.useState(false);
     //const [points,setPoints] = React.useState([]);
-    const [globalState, dispatch] = React.useContext(Context);
+    const [state, dispatch] = React.useContext(Context);
 
 
     function OnShowAddPointsDialogClicked()
@@ -64,26 +62,48 @@ function NavPlannerToolbox(props) {
     {
         OnHideAddPointsDialogClicked();
         const newPoints = pointDatas.split('\n');
+        let pointObj = {};
         for (let i = 0; i < newPoints.length; i++) {
             var pointArr = newPoints[i].split(' ');
-            if(pointArr.length !== 5)
+            if(pointArr.length < 5)
                 continue;
-            let pointObj = {};
-            pointObj["x"] = parseInt(pointArr[0]);
-            pointObj["y"] = parseInt(pointArr[1]);
-            pointObj["z"] = parseInt(pointArr[2]);
-            //pointObj["rp"] = pointArr[3];
-            //pointObj["ry"] = pointArr[4];
 
-            //25384 134962 -46802 21.29 -2.03
-            const combinedPoints = globalState.points.concat([pointObj]);
+            let coords = pointArr[0]+'-'+pointArr[1]+'-'+pointArr[2];
 
-            dispatch({type:'setPoints',payload:combinedPoints})
+            pointObj[coords] = {};
+            pointObj[coords].x = parseInt(pointArr[0]);
+            pointObj[coords].y = parseInt(pointArr[1]);
+            pointObj[coords].z = parseInt(pointArr[2]);
+
+        }
+
+        pointObj = {...state.points,...pointObj};
+        dispatch({type:'setPoints',payload:pointObj})
+    }
+
+    function download(data, filename, type) {
+        var file = new Blob([data], {type: type});
+        if (window.navigator.msSaveOrOpenBlob) // IE10+
+            window.navigator.msSaveOrOpenBlob(file, filename);
+        else { // Others
+            var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(function() {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 0);
         }
     }
 
     function OnSaveClicked(){
-        console.log(canvasViewModel.countLabel);
+        const output = {points:state.points,lines:state.lines};
+
+        console.log(JSON.stringify(output));
+        download(JSON.stringify(output),'export.txt','.txt');
     }
 
     const drawer = (
@@ -102,7 +122,6 @@ function NavPlannerToolbox(props) {
         </div>
     );
 
-
     return (
         <div className={classes.flex}>
             <nav className={classes.drawer} aria-label="folders">
@@ -112,7 +131,7 @@ function NavPlannerToolbox(props) {
                              OnAddPointsCanceled={OnHideAddPointsDialogClicked}
                              OnAddPointsFinished={OnAddPointsFinished}
             />
-            <PointCanvas viewModel={canvasViewModel} points={globalState.points} />;
+            <PointCanvas points={state.points} />;
 
         </div>
     );
