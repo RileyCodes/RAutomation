@@ -10,6 +10,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import PointCanvasModel from "./Model/PointCanvasModel.ts";
 import {Context} from "./Model/Store";
+import Util from "./Util";
 
 const drawerWidth = 50;
 
@@ -99,9 +100,15 @@ function NavPlannerToolbox(props) {
         }
     }
 
+
+    function cb()
+    {
+        console.log('cb was called.');
+    }
+
+
     function OnSaveClicked(){
         const output = {points:state.points,lines:state.lines};
-
         console.log(JSON.stringify(output));
         download(JSON.stringify(output),'export.txt','.txt');
     }

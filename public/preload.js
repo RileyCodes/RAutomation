@@ -1,6 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron')
 const { remote } = require('electron')
-const { getNativeFunction } = require('sbffi');
+const { getNativeFunction,getBufferPointer,sizeof } = require('sbffi');
 
 
 contextBridge.exposeInMainWorld(
@@ -8,6 +8,8 @@ contextBridge.exposeInMainWorld(
     {
         min: () => remote.BrowserWindow.getFocusedWindow().minimize(),
         close: () => remote.BrowserWindow.getFocusedWindow().close(),
-		getNativeFunction:(...Args) => getNativeFunction(Args)
+		getNativeFunction:(...Args) => getNativeFunction(...Args),
+		getBufferPointer:(...Args) => getBufferPointer(...Args),
+		sizeof:(...Args) => {return sizeof(...Args)},
     }
 )
